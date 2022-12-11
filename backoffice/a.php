@@ -21,7 +21,7 @@
         $product->description = htmlspecialchars($text);
         $product->id_category_default = $catDef;
         $product->redirect_type = '301';
-        $product->price = number_format($price, 6, '.', '');
+        $product->price = number_format((float)$price, 6, '.', '');
         $product->minimal_quantity = 1;
         $product->show_price = 1;
         $product->on_sale = $sal; 
@@ -144,23 +144,29 @@
         if ($counter>20 && $counter <24){
             $sal=1;
         }
-        addProduct(
-            $sal,
-            '1234567891234',                         // Product EAN13
-            //'Tutorial by Crezzur',                         // Product reference
-            $value["product_name"],                               // Product name
-            1000,                                       // Product quantity
-            $value["info"], // Product description
-            array(                                  // Product features (array)
-                array("name" => "Color", "value" => "Black"),
-                array("name" => "Height", "value" => "200cm"),
-           ),
-            $tmp3,                                // Product price
-            $value["image"],       // Product image
-            $json_a[$value["sub_category"]],                                       // Product default category
-            //"10",
-            array($json_a[$value["sub_category"]])                              // All categorys for product (array)
-       );
+        try {
+            addProduct(
+                $sal,
+                '1234567891234',                         // Product EAN13
+                //'Tutorial by Crezzur',                         // Product reference
+                $value["product_name"],                               // Product name
+                1000,                                       // Product quantity
+                $value["info"], // Product description
+                array(                                  // Product features (array)
+                    array("name" => "Color", "value" => "Black"),
+                    array("name" => "Height", "value" => "200cm"),
+               ),
+                $tmp3,                                // Product price
+                $value["image"],       // Product image
+                $json_a[$value["sub_category"]],                                       // Product default category
+                //"10",
+                array($json_a[$value["sub_category"]])                              // All categorys for product (array)
+           );
+        }
+        catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+        
 
        
     }
